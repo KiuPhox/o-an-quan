@@ -13,6 +13,9 @@
     <ClCompile Include="D:\VSCode Project\o-an-quan\cocos2d\cocos\precheader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GameScene.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\VSCode Project\o-an-quan\Classes\AppDelegate.h">
@@ -44,6 +47,9 @@
     </ClInclude>
     <ClInclude Include="D:\VSCode Project\o-an-quan\Resources\res\.gitkeep">
       <Filter>Resources\res</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>Source Files\Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
