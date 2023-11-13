@@ -1,0 +1,20 @@
+^D:\VSCODE PROJECT\O-AN-QUAN\PROJ.WIN32\CMAKEFILES\4D310028FB34F092E131FC4620EF2677\SYNC_RESOURCE-O-AN-QUAN.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E echo "Copying resources for o-an-quan ..."
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\VSCODE PROJECT\O-AN-QUAN\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SD:/VSCode Project/o-an-quan" "-BD:/VSCode Project/o-an-quan/proj.win32" --check-stamp-file "D:/VSCode Project/o-an-quan/proj.win32/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

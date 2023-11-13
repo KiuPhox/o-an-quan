@@ -1,0 +1,10 @@
+^D:\VSCODE PROJECT\O-AN-QUAN\PROJ.WIN32\CMAKEFILES\4D310028FB34F092E131FC4620EF2677\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SD:/VSCode Project/o-an-quan" "-BD:/VSCode Project/o-an-quan/proj.win32" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "D:/VSCode Project/o-an-quan/proj.win32/o-an-quan.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

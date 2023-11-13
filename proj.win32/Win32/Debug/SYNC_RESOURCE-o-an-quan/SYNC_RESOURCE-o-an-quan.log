@@ -1,0 +1,9 @@
+﻿  Copying resources for o-an-quan ...
+  Building Custom Rule D:/VSCode Project/o-an-quan/CMakeLists.txt
+      copying to D:/VSCode Project/o-an-quan/proj.win32/bin/o-an-quan/Debug/Resources
+    Create D:/VSCode Project/o-an-quan/proj.win32/bin/o-an-quan/Debug/Resources\fonts\Marker Felt.ttf
+    Create D:/VSCode Project/o-an-quan/proj.win32/bin/o-an-quan/Debug/Resources\HelloWorld.png
+    Create D:/VSCode Project/o-an-quan/proj.win32/bin/o-an-quan/Debug/Resources\res\.gitkeep
+    ...
+    0 items updated, 6 items created 
+    takes 0.0280001163483 seconds

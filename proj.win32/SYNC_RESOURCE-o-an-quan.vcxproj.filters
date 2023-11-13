@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\VSCode Project\o-an-quan\proj.win32\CMakeFiles\4d310028fb34f092e131fc4620ef2677\SYNC_RESOURCE-o-an-quan.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\VSCode Project\o-an-quan\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\VSCode Project\o-an-quan\proj.win32\CMakeFiles\SYNC_RESOURCE-o-an-quan" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{0E56831A-0A26-3CA0-B4A5-F76EF46C4F4A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
