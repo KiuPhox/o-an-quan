@@ -80,4 +80,9 @@
       <UniqueIdentifier>{0B2D7A29-0026-3EA4-AD54-864342EE6704}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\bg.png">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

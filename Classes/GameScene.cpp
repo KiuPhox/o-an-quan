@@ -52,10 +52,10 @@ bool Game::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
+    auto sprite = Sprite::create("bg.png");
     if (sprite == nullptr)
     {
-        problemLoading("'HelloWorld.png'");
+        problemLoading("'bg.png'");
     }
     else
     {
