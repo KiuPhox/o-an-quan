@@ -16,6 +16,9 @@
     <ClCompile Include="..\Classes\GameScene.cpp">
       <Filter>Source Files\Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\Board.cpp">
+      <Filter>Source Files\Classes\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\VSCode Project\o-an-quan\Classes\AppDelegate.h">
@@ -51,6 +54,9 @@
     <ClInclude Include="..\Classes\GameScene.h">
       <Filter>Source Files\Classes</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\Board.h">
+      <Filter>Source Files\Classes\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\VSCode Project\o-an-quan\CMakeLists.txt" />
@@ -78,6 +84,9 @@
     </Filter>
     <Filter Include="Source Files\proj.win32">
       <UniqueIdentifier>{0B2D7A29-0026-3EA4-AD54-864342EE6704}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\GameObject">
+      <UniqueIdentifier>{f2c5cfa4-d6e6-4ea5-ba5e-9f7778bbc8b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

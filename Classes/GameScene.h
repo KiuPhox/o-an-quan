@@ -36,6 +36,11 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(Game);
+private:
+    cocos2d::Label *mouseLabel;
+
+    void onMouseDown(cocos2d::EventMouse* event);
+    void onMouseMove(cocos2d::EventMouse* event);
 };
 
 #endif // __GAME_SCENE_H__

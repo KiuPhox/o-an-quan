@@ -41,8 +41,6 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool Game::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Scene::init() )
     {
         return false;
@@ -51,19 +49,35 @@ bool Game::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    // add "HelloWorld" splash screen"
     auto sprite = Sprite::create("bg.png");
-    if (sprite == nullptr)
-    {
-        problemLoading("'bg.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    this->addChild(sprite, 0);
 
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
-    }
+    this->mouseLabel = Label::createWithTTF("Mouse Position", "fonts/Marker Felt.ttf", 24);
+    this->mouseLabel->setPosition(Vec2(100, visibleSize.height - 20));
+    this->addChild(this->mouseLabel, 1);
+
+    auto _mouseListener = EventListenerMouse::create();
+    _mouseListener->onMouseDown = CC_CALLBACK_1(Game::onMouseDown, this);
+    _mouseListener->onMouseMove = CC_CALLBACK_1(Game::onMouseMove, this);
+
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(_mouseListener, this);
+
     return true;
+}
+
+void Game::onMouseDown(cocos2d::EventMouse* event) {
+    Vec2 pos = event->getLocationInView();
+
+    // Display position
+    std::string str = "x: " + std::to_string((int)pos.x) + ", y: " + std::to_string((int)pos.y);
+	this->mouseLabel->setString(str);
+}
+
+void Game::onMouseMove(cocos2d::EventMouse* event) {
+    Vec2 pos = event->getLocationInView();
+
+    // Display position
+    std::string str = "x: " + std::to_string((int)pos.x) + ", y: " + std::to_string((int)pos.y);
+    this->mouseLabel->setString(str);
 }
