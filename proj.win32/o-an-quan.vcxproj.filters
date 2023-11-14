@@ -19,6 +19,15 @@
     <ClCompile Include="..\Classes\GameObject\Board.cpp">
       <Filter>Source Files\Classes\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\MenuScene.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameManager.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\Stone.cpp">
+      <Filter>Source Files\Classes\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\VSCode Project\o-an-quan\Classes\AppDelegate.h">
@@ -57,6 +66,18 @@
     <ClInclude Include="..\Classes\GameObject\Board.h">
       <Filter>Source Files\Classes\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\MenuScene.h">
+      <Filter>Source Files\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameManager.h">
+      <Filter>Source Files\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\Stone.h">
+      <Filter>Source Files\Classes\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Utils.h">
+      <Filter>Source Files\Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\VSCode Project\o-an-quan\CMakeLists.txt" />
@@ -91,6 +112,18 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Resources\bg.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\player_button.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\computer_button.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\stone.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\highlight.png">
       <Filter>Resources</Filter>
     </Image>
   </ItemGroup>
