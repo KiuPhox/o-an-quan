@@ -18,7 +18,6 @@ public:
 private:
     Board *board;
 
-    cocos2d::Label* mouseLabel;
     cocos2d::Label* turnLabel;
 
     void updateTurnLabel();

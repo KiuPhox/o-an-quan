@@ -31,6 +31,8 @@ Board::Board() {
 	this->highlight->setVisible(false);
 	this->addChild(this->highlight, 1);
 
+	this->isReady = true;
+
 	for (int i = 0; i < 12; i++) {
 		board[i] = 5;
 	}
@@ -76,8 +78,11 @@ int Board::getNextIndex(int index, bool left) {
 	return nextIndex;
 }
 
-void Board::move(int index, bool left) {
-	if (index == 0 || index == 6) return;
+void Board::move(int index, bool left, std::function<void()> callback) {
+	if (index == 0 || index == 6) {
+		callback();
+		return;
+	}
 
 	int count = board[index];
 	auto stones = getAllStoneInCell(index);
@@ -93,20 +98,24 @@ void Board::move(int index, bool left) {
 
 	index = getNextIndex(index, left);
 
-	this->scheduleOnce([this, index, left](float dt) {
+	this->scheduleOnce([this, index, left, callback](float dt) {
 		if (board[index] > 0) {
-			move(index, left);
+			move(index, left, callback);
 		}
-		else if (index != 0 && index != 6){
-			claim(getNextIndex(index, left), left);
+		else if (index != 0 && index != 6) {
+			claim(getNextIndex(index, left), left, callback);
+		}
+		else {
+			callback();
 		}
 	}, 1, "MOVE_OR_CLAIM");
-
-
 }
 
-void Board::claim(int index, bool left) {
-	if (board[index] == 0) return;
+void Board::claim(int index, bool left, std::function<void()> callback) {
+	if (board[index] == 0) {
+		callback();
+		return;
+	}
 	board[index] = 0;
 
 	auto stones = getAllStoneInCell(index);
@@ -114,16 +123,17 @@ void Board::claim(int index, bool left) {
 		stone->setPosition(999, 999);
 	}
 
-	this->scheduleOnce([this, index, left](float dt) {
-		int nextIndex = getNextIndex(index, left);
-		if (board[nextIndex] > 0) {
-			return;
-		}
-		else{
-			claim(getNextIndex(nextIndex, left), left);
-		}
+	int nextIndex = getNextIndex(index, left);
+	if (board[nextIndex] > 0) {
+		callback();
+		return;
 	}
-	, 1, "CLAIM");
+	else {
+		this->scheduleOnce([this, nextIndex, left, callback](float dt) {
+			claim(getNextIndex(nextIndex, left), left, callback);
+			}
+		, 1, "CLAIM");
+	}
 }
 
 void Board::setStonePosition(Stone* stone, int index, bool animate) {
@@ -141,7 +151,11 @@ void Board::setStonePosition(Stone* stone, int index, bool animate) {
 	}
 }
 
+
+
 void Board::onMouseDown(Vec2 position){
+	if (!this->isReady) return;
+
 	int index = getCellIndex(position);
 
 	auto playerTurn = GameManager::turn;
@@ -163,10 +177,19 @@ void Board::onMouseDown(Vec2 position){
 		this->selectedIndex = -1;
 	}
 	else {
+		this->isReady = false;
 		this->highlight->setVisible(false);
-		this->move(this->selectedIndex, position.x < CELL_POSITION[selectedIndex].x);
+		this->move(this->selectedIndex, position.x < CELL_POSITION[selectedIndex].x, [this]() {
+			this->onMoveDone();
+		});
 		this->selectedIndex = -1;
 	}
+}
+
+void Board::onMoveDone() {
+	this->isReady = true;
+	GameManager::changeTurn();
+	CCLOG ("Player %d Turn", (int)GameManager::turn + 1);
 }
 
 int Board::getCellIndex(Vec2 position) {

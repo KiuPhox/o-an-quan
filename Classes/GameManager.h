@@ -1,6 +1,8 @@
 #ifndef __GAME_MANAGER_H__
 #define __GAME_MANAGER_H__
 
+#include <functional>
+
 class GameManager
 {
 public:
@@ -16,6 +18,9 @@ public:
 
     static GameMode mode;
     static PlayerTurn turn;
+    static void changeTurn();
+
+    static std::function<void()> OnTurnChangedCallback;
 };
 
 #endif // __GAME_MANAGER_H__
