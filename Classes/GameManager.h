@@ -18,9 +18,13 @@ public:
 
     static GameMode mode;
     static PlayerTurn turn;
+    static int playerId;
+
+    static bool isPlayerTurn();
     static void changeTurn();
 
     static std::function<void()> OnTurnChangedCallback;
+    static std::function<void(int index, bool left)> OnPlayerMoveCallback;
 };
 
 #endif // __GAME_MANAGER_H__

@@ -179,9 +179,21 @@ void Board::onMouseDown(Vec2 position){
 	else {
 		this->isReady = false;
 		this->highlight->setVisible(false);
-		this->move(this->selectedIndex, position.x < CELL_POSITION[selectedIndex].x, [this]() {
+
+		bool left = position.x < CELL_POSITION[selectedIndex].x;
+
+		if (GameManager::turn == GameManager::PLAYER2) {
+			left = !left;
+		}
+
+		if (GameManager::OnPlayerMoveCallback != nullptr) {
+			GameManager::OnPlayerMoveCallback(this->selectedIndex, left);
+		}
+		
+		this->move(this->selectedIndex, left, [this]() {
 			this->onMoveDone();
 		});
+
 		this->selectedIndex = -1;
 	}
 }
@@ -189,7 +201,6 @@ void Board::onMouseDown(Vec2 position){
 void Board::onMoveDone() {
 	this->isReady = true;
 	GameManager::changeTurn();
-	CCLOG ("Player %d Turn", (int)GameManager::turn + 1);
 }
 
 int Board::getCellIndex(Vec2 position) {

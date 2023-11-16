@@ -1,6 +1,8 @@
 #include "GameScene.h"
+#include "Utils.h"
 
 USING_NS_CC;
+using namespace cocos2d::network;
 
 Scene* GameScene::createScene()
 {
@@ -23,31 +25,80 @@ bool GameScene::init()
     this->turnLabel = Label::createWithTTF("Player Turn", "fonts/Marker Felt.ttf", 32);
     this->turnLabel->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - 30));
     this->addChild(this->turnLabel, 1);
-    this->updateTurnLabel();
 
     auto _mouseListener = EventListenerMouse::create();
     _mouseListener->onMouseDown = CC_CALLBACK_1(GameScene::onMouseDown, this);
 
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_mouseListener, this);
 
-    GameManager::OnTurnChangedCallback = std::bind(&GameScene::updateTurnLabel, this);
+    GameManager::OnTurnChangedCallback = std::bind(&GameScene::updateUI, this);
+
+    if (GameManager::mode == GameManager::GameMode::PLAYER) {
+        GameManager::OnPlayerMoveCallback = std::bind(&GameScene::onPlayerMove, this, std::placeholders::_1, std::placeholders::_2);
+
+        client = SocketIO::connect("http://127.0.0.1:3000", *this);
+
+        client->on("player", CC_CALLBACK_2(GameScene::onPlayerConneted, this));
+        client->on("player-move", CC_CALLBACK_2(GameScene::onOpponentMove, this));
+    }
 
     return true;
 }
 
-void GameScene::updateTurnLabel() {
+void GameScene::updateUI() {
     auto gameMode = GameManager::mode;
-    auto playerTurn = GameManager::turn;
 
     if (gameMode == GameManager::GameMode::COMPUTER) {
-        turnLabel->setString(playerTurn == GameManager::PlayerTurn::PLAYER1 ? "Player Turn" : "Computer Turn");
+        turnLabel->setString(GameManager::isPlayerTurn() ? "Your Turn" : "Computer Turn");
     }
     else {
-	    turnLabel->setString(playerTurn == GameManager::PlayerTurn::PLAYER1 ? "Player 1 Turn" : "Player 2 Turn");
+	    turnLabel->setString(GameManager::isPlayerTurn() ? "Your Turn" : "Opponent Turn");
     }
 }
 
 void GameScene::onMouseDown(cocos2d::EventMouse* event) {
     Vec2 pos = event->getLocationInView();
-    this->board->onMouseDown(pos);
+    if (GameManager::isPlayerTurn()) {
+        this->board->onMouseDown(pos);
+    }
+}
+
+void GameScene::onPlayerConneted(SIOClient* client, const std::string& data) {
+    GameManager::playerId = std::stoi(data);
+
+    this->updateUI();
+}
+
+void GameScene::onPlayerMove(int index, bool left) {
+    std::string data = std::to_string(GameManager::playerId) + "," + std::to_string(index) + "," + std::to_string(left);
+    client->emit("player-move", data);
+}
+
+void GameScene::onOpponentMove(SIOClient* client, const std::string& data) {
+    std::string trueData = data.substr(1, data.size() - 2);
+    std::vector<std::string> splitData = Utils::split(trueData, ",");
+
+    int playerId = std::stoi(splitData[0]);
+    if (playerId == GameManager::playerId) return;
+
+    int index = std::stoi(splitData[1]);
+    bool left = std::stoi(splitData[2]);
+
+    this->board->move(index, left, [this]() {
+        this->board->onMoveDone();
+    });
+
+}
+
+void GameScene::onConnect(SIOClient* client) {
+    CCLOG("onConnect");
+}
+void GameScene::onMessage(SIOClient* client, const std::string& data) {
+    CCLOG("onMessange");
+}
+void GameScene::onClose(SIOClient* client) {
+    CCLOG("onClose");
+}
+void GameScene::onError(SIOClient* client, const std::string& data) {
+    CCLOG("onError");
 }
