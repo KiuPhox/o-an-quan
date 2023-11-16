@@ -49,6 +49,9 @@ bool GameScene::init()
         client->on("player", CC_CALLBACK_2(GameScene::onPlayerConneted, this));
         client->on("player-move", CC_CALLBACK_2(GameScene::onOpponentMove, this));
     }
+    else {
+        this->updateUI();
+    }
 
     return true;
 }
@@ -61,6 +64,7 @@ void GameScene::updateUI() {
 
     if (gameMode == GameManager::GameMode::COMPUTER) {
         turnLabel->setString(GameManager::isPlayerTurn() ? "Your Turn" : "Computer Turn");
+
         player1Label->setString("Player\n" + player1Score);
         player2Label->setString("Computer\n" + player2Score);
     }
