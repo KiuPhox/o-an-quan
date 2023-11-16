@@ -116,6 +116,8 @@ void Board::claim(int index, bool left, std::function<void()> callback) {
 		callback();
 		return;
 	}
+
+	GameManager::addScore(board[index]);
 	board[index] = 0;
 
 	auto stones = getAllStoneInCell(index);

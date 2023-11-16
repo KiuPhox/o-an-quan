@@ -32,6 +32,8 @@ private:
     cocos2d::network::SIOClient* client;
 
     cocos2d::Label* turnLabel;
+    cocos2d::Label* player1Label;
+    cocos2d::Label* player2Label;
 
     void updateUI();
 

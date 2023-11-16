@@ -20,10 +20,14 @@ public:
     static PlayerTurn turn;
     static int playerId;
 
+    static int player1Score;
+    static int player2Score;
+
     static bool isPlayerTurn();
     static void changeTurn();
+    static void addScore(int score);
 
-    static std::function<void()> OnTurnChangedCallback;
+    static std::function<void()> OnUIChangedCallback;
     static std::function<void(int index, bool left)> OnPlayerMoveCallback;
 };
 

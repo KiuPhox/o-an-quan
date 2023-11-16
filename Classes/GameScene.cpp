@@ -26,12 +26,20 @@ bool GameScene::init()
     this->turnLabel->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - 30));
     this->addChild(this->turnLabel, 1);
 
+    this->player1Label = Label::createWithTTF("Player 1\n", "fonts/Marker Felt.ttf", 32);
+    this->player1Label->setPosition(Vec2(100, visibleSize.height - 50));
+    this->addChild(this->player1Label, 1);
+
+    this->player2Label = Label::createWithTTF("Player 2\n", "fonts/Marker Felt.ttf", 32);
+    this->player2Label->setPosition(Vec2(visibleSize.width - 100, visibleSize.height - 50));
+    this->addChild(this->player2Label, 1);
+
     auto _mouseListener = EventListenerMouse::create();
     _mouseListener->onMouseDown = CC_CALLBACK_1(GameScene::onMouseDown, this);
 
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_mouseListener, this);
 
-    GameManager::OnTurnChangedCallback = std::bind(&GameScene::updateUI, this);
+    GameManager::OnUIChangedCallback = std::bind(&GameScene::updateUI, this);
 
     if (GameManager::mode == GameManager::GameMode::PLAYER) {
         GameManager::OnPlayerMoveCallback = std::bind(&GameScene::onPlayerMove, this, std::placeholders::_1, std::placeholders::_2);
@@ -48,11 +56,25 @@ bool GameScene::init()
 void GameScene::updateUI() {
     auto gameMode = GameManager::mode;
 
+    std::string player1Score = std::to_string(GameManager::player1Score);
+    std::string player2Score = std::to_string(GameManager::player2Score);
+
     if (gameMode == GameManager::GameMode::COMPUTER) {
         turnLabel->setString(GameManager::isPlayerTurn() ? "Your Turn" : "Computer Turn");
+        player1Label->setString("Player\n" + player1Score);
+        player2Label->setString("Computer\n" + player2Score);
     }
     else {
 	    turnLabel->setString(GameManager::isPlayerTurn() ? "Your Turn" : "Opponent Turn");
+
+        if (GameManager::playerId == 1) {
+			player1Label->setString("You\n" + player1Score);
+			player2Label->setString("Opponent\n" + player2Score);
+		}
+		else {
+			player1Label->setString("You\n" + player2Score);
+			player2Label->setString("Opponent\n" + player1Score);
+		}
     }
 }
 
