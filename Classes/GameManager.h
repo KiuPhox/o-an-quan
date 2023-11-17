@@ -27,6 +27,8 @@ public:
     static void changeTurn();
     static void addScore(int score);
 
+    static void endGame();
+
     static std::function<void()> OnUIChangedCallback;
     static std::function<void(int index, bool left)> OnPlayerMoveCallback;
 };

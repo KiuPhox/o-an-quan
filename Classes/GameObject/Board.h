@@ -24,6 +24,8 @@ public:
 	void setStonePosition(Stone* stone, int index, bool animate = false);
 	void onMouseDown(cocos2d::Vec2 position);
 	void onMoveDone();
+	
+	bool isMoveAvailable();
 
 	int getCellIndex(cocos2d::Vec2 position);
 	bool isPositionInCell(cocos2d::Vec2 position, int index);

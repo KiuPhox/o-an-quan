@@ -45,3 +45,28 @@ void GameManager::addScore(int score) {
 		GameManager::OnUIChangedCallback();
 	}
 }
+
+void GameManager::endGame() {
+	if (playerId == 1 || mode == GameMode::COMPUTER) {
+		if (player1Score > player2Score) {
+			cocos2d::ccMessageBox("You Win!", "Game Over");
+		}
+		else if (player1Score < player2Score) {
+			cocos2d::ccMessageBox("You Lose!", "Game Over");
+		}
+		else {
+			cocos2d::ccMessageBox("Draw!", "Game Over");
+		}
+	}
+	else if (playerId == 2){
+		if (player1Score > player2Score) {
+			cocos2d::ccMessageBox("You Lose!", "Game Over");
+		}
+		else if (player1Score < player2Score) {
+			cocos2d::ccMessageBox("You Win!", "Game Over");
+		}
+		else {
+			cocos2d::ccMessageBox("Draw!", "Game Over");
+		}
+	}
+}

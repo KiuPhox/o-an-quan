@@ -203,6 +203,10 @@ void Board::onMouseDown(Vec2 position){
 void Board::onMoveDone() {
 	this->isReady = true;
 	GameManager::changeTurn();
+
+	if (!isMoveAvailable()) {
+		GameManager::endGame();
+	}
 }
 
 int Board::getCellIndex(Vec2 position) {
@@ -213,6 +217,21 @@ int Board::getCellIndex(Vec2 position) {
 		}
 	}
 	return -1;
+}
+
+bool Board::isMoveAvailable() {
+	auto playerTurn = GameManager::turn;
+
+	int startIndex = playerTurn == GameManager::PLAYER1 ? 1 : 7;
+	int endIndex = playerTurn == GameManager::PLAYER1 ? 6 : 12;
+
+	for (int i = startIndex; i < endIndex; i++) {
+		if (board[i] > 0) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 
