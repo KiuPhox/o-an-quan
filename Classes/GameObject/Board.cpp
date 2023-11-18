@@ -117,13 +117,14 @@ void Board::claim(int index, bool left, std::function<void()> callback) {
 		return;
 	}
 
-	GameManager::addScore(board[index]);
-	board[index] = 0;
-
 	auto stones = getAllStoneInCell(index);
+
 	for (auto stone : stones) {
+		GameManager::addScore(stone->isBigStone ? 10 : 1);
 		stone->setPosition(999, 999);
 	}
+
+	board[index] = 0;
 
 	int nextIndex = getNextIndex(index, left);
 	if (board[nextIndex] > 0) {
@@ -205,7 +206,9 @@ void Board::onMoveDone() {
 	GameManager::changeTurn();
 
 	if (!isMoveAvailable()) {
-		GameManager::endGame();
+		this->scheduleOnce([](float dt) {
+			GameManager::endGame();
+		}, 0.2, "END_GAME");
 	}
 }
 
@@ -220,6 +223,8 @@ int Board::getCellIndex(Vec2 position) {
 }
 
 bool Board::isMoveAvailable() {
+	if (board[0] == 0 && board[6] == 0) return false;
+
 	auto playerTurn = GameManager::turn;
 
 	int startIndex = playerTurn == GameManager::PLAYER1 ? 1 : 7;

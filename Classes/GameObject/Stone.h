@@ -8,6 +8,8 @@ class Stone : public cocos2d::Sprite
 private:
 public:
 	Stone(bool isBigStone = false);
+
+	bool isBigStone;
 };
 
 #endif // __STONE_H__
