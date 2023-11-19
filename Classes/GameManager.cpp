@@ -69,4 +69,6 @@ void GameManager::endGame() {
 			cocos2d::ccMessageBox("Draw!", "Game Over");
 		}
 	}
+
+	cocos2d::Director::getInstance()->end();
 }

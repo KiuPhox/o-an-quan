@@ -902,7 +902,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <Image Include="..\Resources\bg.png" />
     <Image Include="..\Resources\computer_button.png" />
     <Image Include="..\Resources\highlight.png" />
+    <Image Include="..\Resources\pause_button.png" />
     <Image Include="..\Resources\player_button.png" />
+    <Image Include="..\Resources\resume_button.png" />
     <Image Include="..\Resources\stone.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

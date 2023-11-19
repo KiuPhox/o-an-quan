@@ -27,12 +27,25 @@ bool GameScene::init()
     this->addChild(this->turnLabel, 1);
 
     this->player1Label = Label::createWithTTF("Player 1\n", "fonts/Marker Felt.ttf", 32);
-    this->player1Label->setPosition(Vec2(100, visibleSize.height - 50));
+    this->player1Label->setPosition(Vec2(100, 50));
     this->addChild(this->player1Label, 1);
 
     this->player2Label = Label::createWithTTF("Player 2\n", "fonts/Marker Felt.ttf", 32);
-    this->player2Label->setPosition(Vec2(visibleSize.width - 100, visibleSize.height - 50));
+    this->player2Label->setPosition(Vec2(visibleSize.width - 100, 50));
     this->addChild(this->player2Label, 1);
+
+    this->pauseBtn = MenuItemImage::create("pause_button.png", "pause_button.png", CC_CALLBACK_1(GameScene::onPauseButtonClicked, this));
+    this->pauseBtn->setPosition(Vec2(visibleSize.width - 50, visibleSize.height - 50));
+    this->pauseBtn->setScale(0.5f);
+
+    this->resumeBtn = MenuItemImage::create("resume_button.png", "resume_button.png", CC_CALLBACK_1(GameScene::onResumeButtonClicked, this));
+    this->resumeBtn->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+    this->resumeBtn->setScale(0.8f);
+    this->resumeBtn->setVisible(false);
+
+    auto menu = Menu::create(this->pauseBtn, this->resumeBtn, NULL);
+    menu->setPosition(Vec2::ZERO);
+    this->addChild(menu, 1);
 
     auto _mouseListener = EventListenerMouse::create();
     _mouseListener->onMouseDown = CC_CALLBACK_1(GameScene::onMouseDown, this);
@@ -48,6 +61,8 @@ bool GameScene::init()
 
         client->on("player", CC_CALLBACK_2(GameScene::onPlayerConneted, this));
         client->on("player-move", CC_CALLBACK_2(GameScene::onOpponentMove, this));
+        client->on("pause", CC_CALLBACK_2(GameScene::onPlayerPause, this));
+        client->on("resume", CC_CALLBACK_2(GameScene::onPlayerResume, this));
     }
     else {
         this->updateUI();
@@ -82,6 +97,18 @@ void GameScene::updateUI() {
     }
 }
 
+void GameScene::pauseGame() {
+    this->resumeBtn->setVisible(true);
+    this->pauseBtn->setVisible(false);
+    this->board->pause();
+}
+
+void GameScene::resumeGame() {
+	this->resumeBtn->setVisible(false);
+	this->pauseBtn->setVisible(true);
+    this->board->resume();
+}
+
 void GameScene::onMouseDown(cocos2d::EventMouse* event) {
     Vec2 pos = event->getLocationInView();
     if (GameManager::isPlayerTurn()) {
@@ -113,7 +140,30 @@ void GameScene::onOpponentMove(SIOClient* client, const std::string& data) {
     this->board->move(index, left, [this]() {
         this->board->onMoveDone();
     });
+}
 
+void GameScene::onPlayerPause(SIOClient* client, const std::string& data) {
+	this->pauseGame();
+}
+
+void GameScene::onPlayerResume(SIOClient* client, const std::string& data) {
+	this->resumeGame();
+}
+
+void GameScene::onPauseButtonClicked(Ref* pSender) {
+    if (GameManager::mode == GameManager::GameMode::PLAYER) {
+        this->client->emit("pause", "");
+	}
+
+    this->pauseGame();
+}
+
+void GameScene::onResumeButtonClicked(Ref* pSender) {
+    if (GameManager::mode == GameManager::GameMode::PLAYER) {
+        this->client->emit("resume", "");
+    }
+
+    this->resumeGame();
 }
 
 void GameScene::onConnect(SIOClient* client) {
@@ -128,3 +178,4 @@ void GameScene::onClose(SIOClient* client) {
 void GameScene::onError(SIOClient* client, const std::string& data) {
     CCLOG("onError");
 }
+

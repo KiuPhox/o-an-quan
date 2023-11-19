@@ -13,6 +13,7 @@ private:
 	std::vector<Stone*> stones[52];
 	int getNextIndex(int index, bool left);
 	bool isReady;
+	bool isPause;
 public:
 	Board();
 
@@ -24,6 +25,9 @@ public:
 	void setStonePosition(Stone* stone, int index, bool animate = false);
 	void onMouseDown(cocos2d::Vec2 position);
 	void onMoveDone();
+
+	void pause();
+	void resume();
 	
 	bool isMoveAvailable();
 

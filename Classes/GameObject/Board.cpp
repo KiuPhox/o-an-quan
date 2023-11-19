@@ -32,6 +32,7 @@ Board::Board() {
 	this->addChild(this->highlight, 1);
 
 	this->isReady = true;
+	this->isPause = false;
 
 	for (int i = 0; i < 12; i++) {
 		board[i] = 5;
@@ -158,6 +159,7 @@ void Board::setStonePosition(Stone* stone, int index, bool animate) {
 
 void Board::onMouseDown(Vec2 position){
 	if (!this->isReady) return;
+	if (this->isPause) return;
 
 	int index = getCellIndex(position);
 
@@ -210,6 +212,14 @@ void Board::onMoveDone() {
 			GameManager::endGame();
 		}, 0.2, "END_GAME");
 	}
+}
+
+void Board::pause() {
+	this->isPause = true;
+}
+
+void Board::resume() {
+	this->isPause = false;
 }
 
 int Board::getCellIndex(Vec2 position) {

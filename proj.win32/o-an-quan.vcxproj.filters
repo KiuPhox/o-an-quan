@@ -126,5 +126,11 @@
     <Image Include="..\Resources\highlight.png">
       <Filter>Resources</Filter>
     </Image>
+    <Image Include="..\Resources\pause_button.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\resume_button.png">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

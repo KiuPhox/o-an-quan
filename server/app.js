@@ -15,8 +15,15 @@ io.sockets.on("connection", function (socket) {
   });
 
   socket.on("player-move", function (data) {
-    console.log(data);
     socket.broadcast.emit("player-move", data);
+  });
+
+  socket.on("pause", function (data) {
+    socket.broadcast.emit("pause", data);
+  });
+
+  socket.on("resume", function (data) {
+    socket.broadcast.emit("resume", data);
   });
 });
 
