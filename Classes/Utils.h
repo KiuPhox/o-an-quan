@@ -11,6 +11,10 @@ public:
 		return min + (rand() % (int)(max - min + 1));
 	}
 
+	static float RandomRange(float min, float max) {
+		return min + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (max - min)));
+	}
+
 	static std::vector<std::string> split(std::string str, std::string delimiter) {
 		std::vector<std::string> result;
 		size_t pos = 0;

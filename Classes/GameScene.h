@@ -43,12 +43,12 @@ private:
     cocos2d::MenuItemImage *pauseBtn;
     cocos2d::MenuItemImage *resumeBtn;
 
+    void onTurnChanged();
     void updateUI();
     void pauseGame();
     void resumeGame();
 
     void onMouseDown(cocos2d::EventMouse* event);
-    void onMouseMove(cocos2d::EventMouse* event);
 };
 
 #endif // __GAME_SCENE_H__

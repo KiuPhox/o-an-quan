@@ -8,6 +8,7 @@ int GameManager::playerId = 0;
 int GameManager::player1Score = 0;
 int GameManager::player2Score = 0;
 
+std::function<void()> GameManager::OnTurnChangedCallback = nullptr;
 std::function<void()> GameManager::OnUIChangedCallback = nullptr;
 std::function<void(int index, bool left)> GameManager::OnPlayerMoveCallback = nullptr;
 
@@ -21,6 +22,10 @@ void GameManager::changeTurn() {
 
 	if (GameManager::OnUIChangedCallback != nullptr) {
 		GameManager::OnUIChangedCallback();
+	}
+
+	if (GameManager::OnTurnChangedCallback != nullptr) {
+		GameManager::OnTurnChangedCallback();
 	}
 }
 

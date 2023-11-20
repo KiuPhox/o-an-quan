@@ -9,13 +9,14 @@
 class Board : public cocos2d::Sprite
 {
 private:
-	int board[12];
 	std::vector<Stone*> stones[52];
 	int getNextIndex(int index, bool clockwise);
 	bool isReady;
 	bool isPause;
 public:
 	Board();
+
+	int board[12];
 
 	cocos2d::Sprite *highlight;
 	int selectedIndex = -1;

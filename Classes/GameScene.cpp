@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "Utils.h"
+#include "AI/Alpha.h"
 
 USING_NS_CC;
 using namespace cocos2d::network;
@@ -53,6 +54,7 @@ bool GameScene::init()
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_mouseListener, this);
 
     GameManager::OnUIChangedCallback = std::bind(&GameScene::updateUI, this);
+    GameManager::OnTurnChangedCallback = std::bind(&GameScene::onTurnChanged, this);
 
     if (GameManager::mode == GameManager::GameMode::PLAYER) {
         GameManager::OnPlayerMoveCallback = std::bind(&GameScene::onPlayerMove, this, std::placeholders::_1, std::placeholders::_2);
@@ -69,6 +71,28 @@ bool GameScene::init()
     }
 
     return true;
+}
+
+void GameScene::onTurnChanged() {
+    auto board_vector = std::vector<int>(std::begin(this->board->board), std::end(this->board->board));
+
+    if (GameManager::mode == GameManager::GameMode::COMPUTER && !GameManager::isPlayerTurn()) {
+        State* state = new State(board_vector, 1, GameManager::player1Score, GameManager::player2Score);
+        Alpha* alpha = new Alpha();
+
+        auto move = alpha->minimax_move(state);
+
+        int index = move.first;
+        bool clockwise = move.second;
+
+        float randomDelay = Utils::RandomRange(0.5f, 1.0f);
+
+        this->scheduleOnce([this, index, clockwise](float dt) {
+            this->board->move(index, clockwise, [this]() {
+                this->board->onMoveDone();
+                });
+        }, randomDelay, "computer_move");
+    }
 }
 
 void GameScene::updateUI() {
