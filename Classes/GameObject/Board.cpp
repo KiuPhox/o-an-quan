@@ -79,7 +79,7 @@ int Board::getNextIndex(int index, bool left) {
 	return nextIndex;
 }
 
-void Board::move(int index, bool left, std::function<void()> callback) {
+void Board::move(int index, bool clockwise, std::function<void()> callback) {
 	if (index == 0 || index == 6) {
 		callback();
 		return;
@@ -91,20 +91,20 @@ void Board::move(int index, bool left, std::function<void()> callback) {
 
 
 	while (count > 0) {
-		index = getNextIndex(index, left);
+		index = getNextIndex(index, clockwise);
 		setStonePosition(stones[count - 1], index, true);
 		board[index]++;
 		count--;
 	}
 
-	index = getNextIndex(index, left);
+	index = getNextIndex(index, clockwise);
 
-	this->scheduleOnce([this, index, left, callback](float dt) {
+	this->scheduleOnce([this, index, clockwise, callback](float dt) {
 		if (board[index] > 0) {
-			move(index, left, callback);
+			move(index, clockwise, callback);
 		}
 		else if (index != 0 && index != 6) {
-			claim(getNextIndex(index, left), left, callback);
+			claim(getNextIndex(index, clockwise), clockwise, callback);
 		}
 		else {
 			callback();
@@ -112,7 +112,7 @@ void Board::move(int index, bool left, std::function<void()> callback) {
 	}, 1, "MOVE_OR_CLAIM");
 }
 
-void Board::claim(int index, bool left, std::function<void()> callback) {
+void Board::claim(int index, bool clockwise, std::function<void()> callback) {
 	if (board[index] == 0) {
 		callback();
 		return;
@@ -127,14 +127,14 @@ void Board::claim(int index, bool left, std::function<void()> callback) {
 
 	board[index] = 0;
 
-	int nextIndex = getNextIndex(index, left);
+	int nextIndex = getNextIndex(index, clockwise);
 	if (board[nextIndex] > 0) {
 		callback();
 		return;
 	}
 	else {
-		this->scheduleOnce([this, nextIndex, left, callback](float dt) {
-			claim(getNextIndex(nextIndex, left), left, callback);
+		this->scheduleOnce([this, nextIndex, clockwise, callback](float dt) {
+			claim(getNextIndex(nextIndex, clockwise), clockwise, callback);
 			}
 		, 1, "CLAIM");
 	}

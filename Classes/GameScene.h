@@ -25,7 +25,7 @@ public:
     void onPlayerPause(cocos2d::network::SIOClient* client, const std::string& data);
     void onPlayerResume(cocos2d::network::SIOClient* client, const std::string& data);
 
-    void onPlayerMove(int index, bool left);
+    void onPlayerMove(int index, bool clockwise);
 
     void onPauseButtonClicked(cocos2d::Ref* pSender);
     void onResumeButtonClicked(cocos2d::Ref* pSender);

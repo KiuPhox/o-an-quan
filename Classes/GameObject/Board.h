@@ -11,7 +11,7 @@ class Board : public cocos2d::Sprite
 private:
 	int board[12];
 	std::vector<Stone*> stones[52];
-	int getNextIndex(int index, bool left);
+	int getNextIndex(int index, bool clockwise);
 	bool isReady;
 	bool isPause;
 public:
@@ -20,8 +20,8 @@ public:
 	cocos2d::Sprite *highlight;
 	int selectedIndex = -1;
 
-	void move(int index, bool left, std::function<void()> callback);
-	void claim(int index, bool left, std::function<void()> callback);
+	void move(int index, bool clockwise, std::function<void()> callback);
+	void claim(int index, bool clockwise, std::function<void()> callback);
 	void setStonePosition(Stone* stone, int index, bool animate = false);
 	void onMouseDown(cocos2d::Vec2 position);
 	void onMoveDone();

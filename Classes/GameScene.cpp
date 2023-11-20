@@ -122,8 +122,8 @@ void GameScene::onPlayerConneted(SIOClient* client, const std::string& data) {
     this->updateUI();
 }
 
-void GameScene::onPlayerMove(int index, bool left) {
-    std::string data = std::to_string(GameManager::playerId) + "," + std::to_string(index) + "," + std::to_string(left);
+void GameScene::onPlayerMove(int index, bool clockwise) {
+    std::string data = std::to_string(GameManager::playerId) + "," + std::to_string(index) + "," + std::to_string(clockwise);
     client->emit("player-move", data);
 }
 
@@ -135,9 +135,9 @@ void GameScene::onOpponentMove(SIOClient* client, const std::string& data) {
     if (playerId == GameManager::playerId) return;
 
     int index = std::stoi(splitData[1]);
-    bool left = std::stoi(splitData[2]);
+    bool clockwise = std::stoi(splitData[2]);
 
-    this->board->move(index, left, [this]() {
+    this->board->move(index, clockwise, [this]() {
         this->board->onMoveDone();
     });
 }
