@@ -6,105 +6,72 @@
 class Utils
 {
 public:
-	static int capture(std::vector<int>& board, int index, bool is_clockwise) {
-        int rotation = (is_clockwise) ? 1 : -1;
-        int offset = 0;
-        int capture_score = 0;
+	static int claim(int board[12], int index, bool clockwise) {
+		if (board[index] == 0) {
+			return 0;
+		}
+		int count = board[index];
+		board[index] = 0;
 
-        while (true) {
-            int index1 = (index + rotation * (offset + 1)) % 12;
-            if (index1 < 0) {
-				index1 += 12;
-			}
-        
-            if (board[index1] != 0) {
-                break;
-            }
-            int index2 = (index + rotation * (offset + 2)) % 12;
+		int nextIndex = getNextIndex(index, clockwise);
+		if (board[nextIndex] > 0) {
+			return count;
+		}
+		else {
+			return count + claim(board, getNextIndex(nextIndex, clockwise), clockwise);
+		}
+	}
 
-            if (index2 < 0) {
-                index2 += 12;
-            }
-            if (board[index2] != 0) {
-                capture_score += board[index2];
-                board[index2] = 0;
-            }
-            else {
-                break;
-            }
+	static int move(int board[12], int index, bool clockwise) {
+		int new_board[12];
+		for (int i = 0; i < 12; ++i) {
+			new_board[i] = board[i];
+		}
 
-            offset += 2;
-        }
+		if (index == 0 || index == 6) {
+			return 0;
+		}
 
-        return capture_score;
-    }
+		int count = 0;
 
-    static std::pair<int, int> single_move(std::vector<int>& board, int index, bool is_clockwise) {
-        int rotation = (is_clockwise) ? 1 : -1;
-        if (index < 0) {
-            index += 12;
-        }
-        int total_stone = board[index];
+		if (new_board[index] / 1000 == 1) {
+			count += 10;
+			new_board[index] -= 1000;
+			return 0;
+		}
 
-        if (index == 0 || index == 6) {
-            if (board[index] / 1000 == 1) {
-                return std::make_pair(index, -1);
-            }
-        }
-        else if (total_stone == 0) {
-            return std::make_pair(index, -1);
-        }
+		count += new_board[index] ;
+		new_board[index] = 0;
 
-        board[index] = 0;
 
-        for (int stone = 0; stone < total_stone; ++stone) {
-            int i = (index + rotation * (1 + stone)) % 12;
-            if (i < 0) {
-               i += 12;
-            }
-            board[i] += 1;
-        }
+		while (count > 0) {
+			index = getNextIndex(index, clockwise);
+			new_board[index]++;
+			count--;
+		}
 
-        int current_index = index;
-        int next_index = (index + rotation * (total_stone)) % 12;
+		index = getNextIndex(index, clockwise);
 
-        return std::make_pair(current_index, next_index);
-    }
+		if (new_board[index] > 0) {
+			return move(new_board, index, clockwise);
+		}
+		else if (index != 0 && index != 6) {
+			return claim(new_board, getNextIndex(index, clockwise), clockwise);
+		}
+		else {
+			return 0;
+		}
+	}
 
-    static int move(std::vector<int>& board, int index, bool is_clockwise) {
-        int next_index = index;
-        std::vector<std::pair<int, int>> list_move;
-
-        while (true) {
-            auto pair = single_move(board, next_index, is_clockwise);
-            auto current_index = pair.first;
-            auto new_next_index = pair.second;
-            list_move.push_back(std::make_pair(current_index, new_next_index));
-
-            if (new_next_index == -1 || new_next_index == 0 || new_next_index == 6) {
-                if ((new_next_index == 0 || new_next_index == 6) && board[new_next_index] / 1000 == 0) {
-                    continue;
-                }
-                break;
-            }
-
-            next_index = new_next_index;
-        }
-
-        int score;
-        if (list_move.back().second != -1) {
-            score = capture(board, list_move.back().first, is_clockwise);
-        }
-        else {
-            int index = list_move.size() - 2;
-            if (index < 0) {
-				index += list_move.size();
-			}
-            score = capture(board, list_move[index].first, is_clockwise);
-        }
-
-        return score;
-    }
+	static int getNextIndex(int index, bool clockwise) {
+		int nextIndex = clockwise ? index - 1 : index + 1;
+		if (nextIndex < 0) {
+			nextIndex = 11;
+		}
+		else if (nextIndex > 11) {
+			nextIndex = 0;
+		}
+		return nextIndex;
+	}
 };
-
 #endif // __UTILS_H__

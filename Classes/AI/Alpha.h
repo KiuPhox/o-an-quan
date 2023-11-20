@@ -4,7 +4,7 @@
 #include "State.h"
 #include <map>
 
-const int MAX_DEPTH = 4;
+const int MAX_DEPTH = 5;
 
 class Alpha
 {
@@ -60,7 +60,7 @@ public:
         auto possible_moves = state->get_possible_moves();
         std::pair<std::pair<int, bool>, int> best_action = std::make_pair(std::make_pair(-1, false), 0);
 
-        if (state->player == 1) {
+        if (state->player == 0) {
             int max_value = -10000;
             for (const auto& move : possible_moves) {
                 auto possible_move = move.first;

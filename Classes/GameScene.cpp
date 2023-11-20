@@ -74,10 +74,8 @@ bool GameScene::init()
 }
 
 void GameScene::onTurnChanged() {
-    auto board_vector = std::vector<int>(std::begin(this->board->board), std::end(this->board->board));
-
     if (GameManager::mode == GameManager::GameMode::COMPUTER && !GameManager::isPlayerTurn()) {
-        State* state = new State(board_vector, 1, GameManager::player1Score, GameManager::player2Score);
+        State* state = new State(this->board->board, 1, GameManager::player1Score, GameManager::player2Score);
         Alpha* alpha = new Alpha();
 
         auto move = alpha->minimax_move(state);
@@ -90,7 +88,7 @@ void GameScene::onTurnChanged() {
         this->scheduleOnce([this, index, clockwise](float dt) {
             this->board->move(index, clockwise, [this]() {
                 this->board->onMoveDone();
-                });
+            });
         }, randomDelay, "computer_move");
     }
 }

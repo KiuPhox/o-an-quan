@@ -1,8 +1,12 @@
 #include "State.h"
 #include "Utils.h"
 
-State::State(std::vector<int> board, int player, int player1_score, int player2_score)
-    : board(board), player(player), player1_score(player1_score), player2_score(player2_score) {}
+State::State(int board[12], int player, int player1_score, int player2_score)
+    : player(player), player1_score(player1_score), player2_score(player2_score) {
+    for (int i = 0; i < 12; ++i) {
+		this->board[i] = board[i];
+    }
+}
 
 std::vector<std::pair<int, bool>> State::get_possible_moves() {
     std::vector<std::pair<int, bool>> possible_move;
@@ -36,7 +40,10 @@ int State::gap_score() {
 }
 
 State* State::get_state(int index, bool is_clockwise) {
-    std::vector<int> new_board = board;  // Assuming move function is correctly implemented
+    int new_board[12];
+    for (int i = 0; i < 12; ++i) {
+		new_board[i] = board[i];
+	}
     int score = Utils::move(new_board, index, is_clockwise);
 
     State* new_state = new State(

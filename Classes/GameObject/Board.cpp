@@ -36,6 +36,9 @@ Board::Board() {
 
 	for (int i = 0; i < 12; i++) {
 		board[i] = 5;
+		if (i == 0 || i == 6) {
+			board[i] = 1000;
+		}
 	}
 
 	for (int i = 0; i < 52; i++) {
@@ -68,8 +71,8 @@ Board::Board() {
 	}
 }
 
-int Board::getNextIndex(int index, bool left) {
-	int nextIndex = left ? index - 1 : index + 1;
+int Board::getNextIndex(int index, bool clockwise) {
+	int nextIndex = clockwise ? index - 1 : index + 1;
 	if (nextIndex < 0) {
 		nextIndex = 11;
 	}
