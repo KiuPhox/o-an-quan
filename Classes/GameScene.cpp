@@ -76,9 +76,14 @@ bool GameScene::init()
 void GameScene::onTurnChanged() {
     if (GameManager::mode == GameManager::GameMode::COMPUTER && !GameManager::isPlayerTurn()) {
         State* state = new State(this->board->board, 1, GameManager::player1Score, GameManager::player2Score);
-        Alpha* alpha = new Alpha();
+        
+        auto moves = state->get_possible_moves();
+        auto move = moves[Utils::RandomRange(0, moves.size() - 1)];
 
-        auto move = alpha->minimax_move(state);
+        if (GameManager::difficulty == 5) {
+            Alpha* alpha = new Alpha();
+            move = alpha->minimax_move(state);
+        }
 
         int index = move.first;
         bool clockwise = move.second;

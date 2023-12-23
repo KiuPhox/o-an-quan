@@ -20,10 +20,14 @@ public:
     static PlayerTurn turn;
     static int playerId;
 
+    static int difficulty;
+
     static int player1Score;
     static int player2Score;
 
     static bool isPlayerTurn();
+
+    static void init();
     static void changeTurn();
     static void addScore(int score);
 

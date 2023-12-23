@@ -822,7 +822,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\VSCode Project\o-an-quan\Classes\HelloWorldScene.h" />
     <ClInclude Include="D:\VSCode Project\o-an-quan\proj.win32\main.h" />
     <ClInclude Include="D:\VSCode Project\o-an-quan\proj.win32\resource.h" />
-    <ClCompile Include="..\Classes\AI\Alpha.cpp" />
     <ClCompile Include="..\Classes\AI\State.cpp" />
     <ClCompile Include="..\Classes\GameManager.cpp" />
     <ClCompile Include="..\Classes\GameObject\Board.cpp" />

@@ -28,9 +28,6 @@
     <ClCompile Include="..\Classes\GameObject\Stone.cpp">
       <Filter>Source Files\Classes\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\AI\Alpha.cpp">
-      <Filter>Source Files\Classes\AI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\AI\State.cpp">
       <Filter>Source Files\Classes\AI</Filter>
     </ClCompile>

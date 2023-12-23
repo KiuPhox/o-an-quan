@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include "MenuScene.h"
 #include "cocos2d.h"
 
 GameManager::GameMode GameManager::mode = GameManager::GameMode::COMPUTER;
@@ -8,9 +9,26 @@ int GameManager::playerId = 0;
 int GameManager::player1Score = 0;
 int GameManager::player2Score = 0;
 
+int GameManager::difficulty = 0;
+
 std::function<void()> GameManager::OnTurnChangedCallback = nullptr;
 std::function<void()> GameManager::OnUIChangedCallback = nullptr;
 std::function<void(int index, bool left)> GameManager::OnPlayerMoveCallback = nullptr;
+
+void GameManager::init() {
+	mode = GameMode::COMPUTER;
+	turn = PlayerTurn::PLAYER1;
+
+	playerId = 0;
+	player1Score = 0;
+	player2Score = 0;
+
+	difficulty = 0;
+
+	OnTurnChangedCallback = nullptr;
+	OnUIChangedCallback = nullptr;
+	OnPlayerMoveCallback = nullptr;
+}
 
 void GameManager::changeTurn() {
 	if (GameManager::turn == GameManager::PlayerTurn::PLAYER1) {
@@ -75,5 +93,6 @@ void GameManager::endGame() {
 		}
 	}
 
-	cocos2d::Director::getInstance()->end();
+	auto scene = MenuScene::createScene();
+	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionFade::create(0.5, scene, cocos2d::Color3B(0, 255, 255)));
 }

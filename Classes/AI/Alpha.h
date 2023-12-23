@@ -2,9 +2,8 @@
 #define __ALPHA_H__
 
 #include "State.h"
+#include "GameManager.h"
 #include <map>
-
-const int MAX_DEPTH = 5;
 
 class Alpha
 {
@@ -116,7 +115,7 @@ public:
     }
 
     std::pair<int, bool> minimax_move(State* state) {
-        auto m = minimax(state, MAX_DEPTH, -10000, 10000);
+        auto m = minimax(state, GameManager::difficulty, -10000, 10000);
         auto action = m.first;
         return action;
     }

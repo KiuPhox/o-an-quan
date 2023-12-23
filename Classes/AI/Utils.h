@@ -29,7 +29,9 @@ public:
 		}
 
 		if (index == 0 || index == 6) {
-			return 0;
+			if ((int)(board[index] / 1000) == 1) {
+				return 0;
+			}
 		}
 
 		int count = 0;

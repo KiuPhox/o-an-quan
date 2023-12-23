@@ -84,8 +84,10 @@ int Board::getNextIndex(int index, bool clockwise) {
 
 void Board::move(int index, bool clockwise, std::function<void()> callback) {
 	if (index == 0 || index == 6) {
-		callback();
-		return;
+		if ((int)(board[index] / 1000) == 1) {
+			callback();
+			return;
+		}
 	}
 
 	int count = board[index];

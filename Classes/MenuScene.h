@@ -12,7 +12,8 @@ public:
     
     CREATE_FUNC(MenuScene);
 private:
-    void menuComputerCallback(cocos2d::Ref* pSender);
+    void menuEasyCallback(cocos2d::Ref* pSender);
+    void menuHardCallback(cocos2d::Ref* pSender);
     void menuPlayerCallback(cocos2d::Ref* pSender);
 };
 
